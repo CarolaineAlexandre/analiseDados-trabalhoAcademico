@@ -1,0 +1,84 @@
+```{r}
+#intall.packages("xlsx")
+library(xlsx)
+```
+Importar a base de dados em csv
+```{r}
+dados = read.csv(file.choose(), header = TRUE, sep = ",")
+dados
+dados = read.csv("notas-exames.csv",header = TRUE, sep = ",")
+```
+
+
+```{r}
+#Dar os nomes corretos as colunas 
+colnames(dados) = c("genero","raca/etnia","Nivel de educacao dos pais","almoco","curso preparatorio para testes","matematica")
+head(dados)
+
+```
+
+```{r}
+#genero
+counts = table(dados$gender)
+barplot(counts, main="Gênero x alunos", xlab="gênero")
+
+```
+```{r}
+#nível de educação dos pais
+counts = table(dados$parent_education_level)
+barplot(counts, main="Nível de educação dos pais x alunos", xlab="Nível de educação dos pais")
+```
+
+```{r}
+#etnia
+counts = table(dados$race.ethnicity)
+barplot(counts, main="Etnia x alunos", xlab="Etnia")
+```
+
+```{r}
+#se tinham acesso a almoço
+counts = table(dados$lunch)
+barplot(counts, main="Acesso a almoço x alunos", xlab="Acesso a almoço")
+```
+```{r}
+#notas do teste
+counts = table(dados$math)
+barplot(counts, main="Nota teste x alunos", xlab="Nota teste")
+```
+```{r}
+#notas do teste
+counts = table(dados$test_prep_course)
+barplot(counts, main="Curso preparatório x alunos", xlab="Nota teste")
+```
+
+```{r}
+#analise histograma - pacote lattice
+library(lattice)
+```
+```{r}
+#histograma
+math
+histogram(dados$math)
+#condicional
+histogram(~math |lunch, data=dados)
+histogram(~math |race.ethnicity, data=dados)
+histogram(~math |parent_education_level, data=dados)
+histogram(~math |test_prep_course, data=dados)
+
+```
+```{r}
+#dispersão
+math
+xyplot(dados$math ~ dados$lunch | dados$parent_education_level)
+```
+
+
+```{r}
+#gráfico de pontos - estatistica 
+dotplot(dados$math ~ dados$lunch | dados$parent_education_level)
+```
+```{r}
+boxplot(dados$math, main = "Dados das Notas do exame", xlab="Notas", col="blue")
+boxplot.stats(dados$math)
+```
+
